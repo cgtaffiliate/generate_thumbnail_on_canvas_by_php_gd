@@ -1,5 +1,5 @@
 <?php 
-function create_thumb_on_canvas($s_image='',$save_path='',$max_width=100, $max_height=100){
+function create_thumb_on_canvas($s_image='',$save_path='',$max_width=100, $max_height=100, $pngbgwhite=0){
 	if(empty($s_image)){ return "Please pass source image path."; }
 	if(empty($save_path)){ return "Please pass destination image path."; }
 	$quality = 100;
@@ -41,10 +41,16 @@ function create_thumb_on_canvas($s_image='',$save_path='',$max_width=100, $max_h
 		$image_p = imagecreatetruecolor($max_width, $max_height);
 		$background = imagecolorallocate($image_p, 0, 0, 0);
 		
-		$image = imagecreatefrompng($s_image); 
-		imagecolortransparent($image_p,$background) ;
-		imagealphablending($image_p, false);
-		imagesavealpha($image_p, false);
+		if($pngbgwhite==1){
+			$white = imagecolorallocate($image_p, 255, 255, 255);
+			imagefill($image_p, 0, 0, $white);		
+			$image = imagecreatefrompng($s_image); 
+		} else {
+			$image = imagecreatefrompng($s_image); 
+			imagecolortransparent($image_p,$background) ;
+			imagealphablending($image_p, false);
+			imagesavealpha($image_p, false);
+		}
 
 		imagecopyresampled($image_p, $image, $start_pos_dest_x, $start_pos_dest_y, 0, 0, $new_width, $new_height, $width, $height);
 		imagepng($image_p,$save_path); 
@@ -76,4 +82,7 @@ function create_thumb_on_canvas($s_image='',$save_path='',$max_width=100, $max_h
 
 	// GIF
 	create_thumb_on_canvas('365x360.gif','output/gif-500x500.gif',500,500);
+
+	// PNG to JPG
+	create_thumb_on_canvas('381x277.png','output/pngtojpg-500x500.png',500,500,1);
 ?>
