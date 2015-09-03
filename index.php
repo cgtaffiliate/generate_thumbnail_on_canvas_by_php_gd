@@ -83,6 +83,6 @@ function create_thumb_on_canvas($s_image='',$save_path='',$max_width=100, $max_h
 	// GIF
 	create_thumb_on_canvas('365x360.gif','output/gif-500x500.gif',500,500);
 
-	// PNG to JPG
-	create_thumb_on_canvas('381x277.png','output/pngtojpg-500x500.png',500,500,1);
+	// PNG to White Background
+	create_thumb_on_canvas('381x277.png','output/pngbgwhite-500x500.png',500,500,1);
 ?>
